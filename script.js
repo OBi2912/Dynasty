@@ -42,6 +42,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const createAccountBtn = document.getElementById('create-account-btn');
     const loginLink = document.getElementById('login-link');
 
+    // Favorites modal
+    const favoritesModal = document.createElement('div');
+    favoritesModal.id = 'favorites-modal';
+    favoritesModal.className = 'favorites-modal';
+    favoritesModal.innerHTML = `
+        <div class="favorites-modal-content">
+            <div class="favorites-header">
+                <h2>My Favorites</h2>
+                <button id="close-favorites" class="close-favorites">&times;</button>
+            </div>
+            <div id="favorites-list" class="favorites-list">
+                <!-- Favorites will be added here -->
+            </div>
+        </div>
+    `;
+    document.body.appendChild(favoritesModal);
+
+    const closeFavorites = document.getElementById('close-favorites');
+    const favoritesList = document.getElementById('favorites-list');
+
     // Search functionality
     const searchInput = document.getElementById('search-input');
     const searchBtn = document.getElementById('search-btn');
@@ -758,7 +778,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Favorites button
     favoritesBtn.addEventListener('click', () => {
-        alert('Favorites functionality would be implemented here!');
+        displayFavorites();
+        favoritesModal.style.display = 'flex';
+    });
+
+    // Close favorites modal
+    closeFavorites.addEventListener('click', () => {
+        favoritesModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === favoritesModal) {
+            favoritesModal.style.display = 'none';
+        }
     });
 
     // User button
@@ -888,6 +920,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    function displayFavorites() {
+        favoritesList.innerHTML = '';
+
+        if (favorites.length === 0) {
+            favoritesList.innerHTML = '<p style="text-align: center; padding: 40px; color: var(--text-secondary);">No favorites yet. Add some products to your favorites!</p>';
+            return;
+        }
+
+        favorites.forEach(item => {
+            const favoriteItem = document.createElement('div');
+            favoriteItem.className = 'favorite-item';
+            favoriteItem.innerHTML = `
+                <img src="${item.image}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+                <div class="favorite-item-details">
+                    <h3>${item.name}</h3>
+                    <p>$${item.price.toFixed(2)}</p>
+                </div>
+                <button class="remove-favorite" data-name="${item.name}">Remove</button>
+            `;
+            favoritesList.appendChild(favoriteItem);
+        });
+
+        // Add event listeners to remove buttons
+        document.querySelectorAll('.remove-favorite').forEach(button => {
+            button.addEventListener('click', function() {
+                const name = this.getAttribute('data-name');
+                removeFromFavorites(name);
+                displayFavorites(); // Refresh the display
+            });
+        });
+    }
+
     function removeFromFavorites(productName) {
         favorites = favorites.filter(item => item.name !== productName);
         localStorage.setItem('favorites', JSON.stringify(favorites));
@@ -926,6 +990,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (userModal.style.display === 'flex') {
                 userModal.style.display = 'none';
                 userForm.reset();
+            }
+            // Close favorites modal if open
+            if (favoritesModal.style.display === 'flex') {
+                favoritesModal.style.display = 'none';
             }
         }
     });

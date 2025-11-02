@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- React Dependencies -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- React Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <header>
@@ -34,6 +43,7 @@
                 <button class="category-btn" data-category="necklaces" data-en="Necklaces" data-es="Collares">Necklaces</button>
                 <button class="category-btn" data-category="bracelets" data-en="Bracelets" data-es="Pulseras">Bracelets</button>
                 <button class="category-btn" data-category="rings" data-en="Rings" data-es="Anillos">Rings</button>
+                <button class="category-btn" data-category="watches" data-en="Watches" data-es="Relojes">Watches</button>
                 <button class="category-btn" data-category="piercings" data-en="Piercings" data-es="Piercings">Piercings</button>
             </div>
         </nav>
@@ -50,6 +60,7 @@
                     <option value="ring" data-en="Ring" data-es="Anillo">Ring</option>
                     <option value="brooch" data-en="Brooch" data-es="Broche">Brooch</option>
                     <option value="pendant" data-en="Pendant" data-es="Colgante">Pendant</option>
+                    <option value="watch" data-en="Watch" data-es="Reloj">Watch</option>
                     <option value="piercing" data-en="Piercing" data-es="Piercing">Piercing</option>
                 </select>
             </div>
@@ -64,6 +75,7 @@
                     <option value="ruby" data-en="Ruby" data-es="Rubí">Ruby</option>
                     <option value="pearl" data-en="Pearl" data-es="Perla">Pearl</option>
                     <option value="sapphire" data-en="Sapphire" data-es="Zafiro">Sapphire</option>
+                    <option value="watch" data-en="Watch Material" data-es="Material de Reloj">Watch Material</option>
                 </select>
             </div>
             <div class="alt-filter-group">
@@ -73,6 +85,8 @@
                     <option value="small" data-en="Small" data-es="Pequeño">Small</option>
                     <option value="medium" data-en="Medium" data-es="Mediano">Medium</option>
                     <option value="large" data-en="Large" data-es="Grande">Large</option>
+                    <option value="ladies" data-en="Ladies" data-es="Damas">Ladies</option>
+                    <option value="gentlemen" data-en="Gentlemen" data-es="Caballeros">Gentlemen</option>
                 </select>
             </div>
         </div>
@@ -103,6 +117,30 @@
                     <h3>Pearl Drop Earrings</h3>
                     <p>Silver pearl drop earrings with delicate chain accents.</p>
                     <p class="price">$950</p>
+                    <button>Buy Now</button>
+                </div>
+                <div class="product" data-type="earrings" data-material="gold sapphire" data-size="medium">
+                    <img src="https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?w=300&h=300&fit=crop&crop=center" alt="Sapphire Earrings" loading="lazy">
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
+                    <h3>Sapphire Stud Earrings</h3>
+                    <p>18k gold earrings with stunning blue sapphires.</p>
+                    <p class="price">$2,400</p>
+                    <button>Buy Now</button>
+                </div>
+                <div class="product" data-type="earrings" data-material="platinum" data-size="large">
+                    <img src="https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?w=300&h=300&fit=crop&crop=center" alt="Platinum Earrings" loading="lazy">
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
+                    <h3>Platinum Crescent Earrings</h3>
+                    <p>Elegant platinum crescent moon earrings with diamonds.</p>
+                    <p class="price">$4,200</p>
+                    <button>Buy Now</button>
+                </div>
+                <div class="product" data-type="earrings" data-material="silver" data-size="small">
+                    <img src="https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?w=300&h=300&fit=crop&crop=center" alt="Silver Earrings" loading="lazy">
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
+                    <h3>Silver Star Earrings</h3>
+                    <p>Delicate sterling silver star-shaped earrings.</p>
+                    <p class="price">$320</p>
                     <button>Buy Now</button>
                 </div>
             </div>
@@ -136,6 +174,30 @@
                     <p class="price">$2,800</p>
                     <button>Buy Now</button>
                 </div>
+                <div class="product" data-type="necklace" data-material="gold" data-size="medium">
+                    <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=300&h=300&fit=crop&crop=center" alt="Gold Heart Necklace" loading="lazy">
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
+                    <h3>Gold Heart Necklace</h3>
+                    <p>18k gold heart-shaped pendant on delicate chain.</p>
+                    <p class="price">$1,200</p>
+                    <button>Buy Now</button>
+                </div>
+                <div class="product" data-type="necklace" data-material="platinum diamond" data-size="small">
+                    <img src="https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=300&h=300&fit=crop&crop=center" alt="Diamond Necklace" loading="lazy">
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
+                    <h3>Diamond Tennis Necklace</h3>
+                    <p>Platinum tennis necklace with pavé diamonds.</p>
+                    <p class="price">$5,500</p>
+                    <button>Buy Now</button>
+                </div>
+                <div class="product" data-type="necklace" data-material="silver pearl" data-size="medium">
+                    <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=300&h=300&fit=crop&crop=center" alt="Pearl Necklace" loading="lazy">
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
+                    <h3>Pearl Strand Necklace</h3>
+                    <p>Classic freshwater pearl strand in sterling silver.</p>
+                    <p class="price">$850</p>
+                    <button>Buy Now</button>
+                </div>
             </div>
         </section>
 
@@ -161,10 +223,34 @@
                 </div>
                 <div class="product" data-type="bracelet" data-material="platinum diamond" data-size="small">
                     <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=300&h=300&fit=crop&crop=center" alt="Diamond Bracelet" loading="lazy">
-                    <div class="favorite-icon" data-favorited="false">🤍</div>
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
                     <h3>Diamond Tennis Bracelet</h3>
                     <p>Platinum tennis bracelet with pavé diamonds.</p>
                     <p class="price">$4,500</p>
+                    <button>Buy Now</button>
+                </div>
+                <div class="product" data-type="bracelet" data-material="silver pearl" data-size="medium">
+                    <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=300&h=300&fit=crop&crop=center" alt="Pearl Bracelet" loading="lazy">
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
+                    <h3>Pearl Bracelet</h3>
+                    <p>Sterling silver bracelet with freshwater pearls.</p>
+                    <p class="price">$650</p>
+                    <button>Buy Now</button>
+                </div>
+                <div class="product" data-type="bracelet" data-material="gold sapphire" data-size="small">
+                    <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=300&h=300&fit=crop&crop=center" alt="Sapphire Bracelet" loading="lazy">
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
+                    <h3>Sapphire Link Bracelet</h3>
+                    <p>18k gold bracelet with blue sapphire accents.</p>
+                    <p class="price">$2,100</p>
+                    <button>Buy Now</button>
+                </div>
+                <div class="product" data-type="bracelet" data-material="platinum" data-size="medium">
+                    <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=300&h=300&fit=crop&crop=center" alt="Platinum Bracelet" loading="lazy">
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
+                    <h3>Platinum Chain Bracelet</h3>
+                    <p>Delicate platinum chain bracelet with lobster clasp.</p>
+                    <p class="price">$1,800</p>
                     <button>Buy Now</button>
                 </div>
             </div>
@@ -222,6 +308,61 @@
             </div>
         </section>
 
+        <!-- Watches Section -->
+        <section id="watches" class="product-section">
+            <h2 class="section-title" data-en="Watches Collection" data-es="Colección de Relojes">Watches Collection</h2>
+            <div class="products">
+                <div class="product" data-type="watch" data-material="gold" data-gender="ladies">
+                    <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=300&h=300&fit=crop&crop=center" alt="Gold Ladies Watch" loading="lazy">
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
+                    <h3>Gold Ladies Watch</h3>
+                    <p>Elegant 18k gold watch with diamond bezel for women.</p>
+                    <p class="price">$2,800</p>
+                    <button>Buy Now</button>
+                </div>
+                <div class="product" data-type="watch" data-material="platinum" data-gender="gentlemen">
+                    <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=300&h=300&fit=crop&crop=center" alt="Platinum Men's Watch" loading="lazy">
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
+                    <h3>Platinum Men's Watch</h3>
+                    <p>Luxury platinum automatic watch for gentlemen.</p>
+                    <p class="price">$5,200</p>
+                    <button>Buy Now</button>
+                </div>
+                <div class="product" data-type="watch" data-material="silver" data-gender="ladies">
+                    <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=300&h=300&fit=crop&crop=center" alt="Silver Ladies Watch" loading="lazy">
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
+                    <h3>Silver Ladies Watch</h3>
+                    <p>Stunning sterling silver watch with mother-of-pearl dial.</p>
+                    <p class="price">$950</p>
+                    <button>Buy Now</button>
+                </div>
+                <div class="product" data-type="watch" data-material="gold" data-gender="gentlemen">
+                    <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=300&h=300&fit=crop&crop=center" alt="Gold Men's Watch" loading="lazy">
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
+                    <h3>Gold Men's Watch</h3>
+                    <p>Classic 18k gold chronograph watch for men.</p>
+                    <p class="price">$3,600</p>
+                    <button>Buy Now</button>
+                </div>
+                <div class="product" data-type="watch" data-material="diamond" data-gender="ladies">
+                    <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=300&h=300&fit=crop&crop=center" alt="Diamond Ladies Watch" loading="lazy">
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
+                    <h3>Diamond Ladies Watch</h3>
+                    <p>Platinum watch with pavé diamond bezel for women.</p>
+                    <p class="price">$7,800</p>
+                    <button>Buy Now</button>
+                </div>
+                <div class="product" data-type="watch" data-material="platinum" data-gender="gentlemen">
+                    <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=300&h=300&fit=crop&crop=center" alt="Platinum Men's Chronograph" loading="lazy">
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
+                    <h3>Platinum Men's Chronograph</h3>
+                    <p>Premium platinum chronograph with ceramic bezel.</p>
+                    <p class="price">$8,900</p>
+                    <button>Buy Now</button>
+                </div>
+            </div>
+        </section>
+
         <!-- Piercings Section -->
         <section id="piercings" class="product-section">
             <h2 class="section-title" data-en="Piercings Collection" data-es="Colección de Piercings">Piercings Collection</h2>
@@ -250,6 +391,30 @@
                     <p class="price">$320</p>
                     <button>Buy Now</button>
                 </div>
+                <div class="product" data-type="piercing" data-material="gold" data-size="small">
+                    <img src="https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?w=300&h=300&fit=crop&crop=center" alt="Gold Ear Cuff" loading="lazy">
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
+                    <h3>Gold Ear Cuff</h3>
+                    <p>18k gold ear cuff with minimalist design.</p>
+                    <p class="price">$180</p>
+                    <button>Buy Now</button>
+                </div>
+                <div class="product" data-type="piercing" data-material="silver diamond" data-size="small">
+                    <img src="https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?w=300&h=300&fit=crop&crop=center" alt="Diamond Nose Ring" loading="lazy">
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
+                    <h3>Diamond Nose Ring</h3>
+                    <p>Sterling silver nose ring with small diamond.</p>
+                    <p class="price">$150</p>
+                    <button>Buy Now</button>
+                </div>
+                <div class="product" data-type="piercing" data-material="platinum" data-size="small">
+                    <img src="https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?w=300&h=300&fit=crop&crop=center" alt="Platinum Ear Stud" loading="lazy">
+                    <div class="favorite-icon" data-favorited="false">❤️</div>
+                    <h3>Platinum Ear Stud</h3>
+                    <p>Premium platinum ear stud with sapphire accent.</p>
+                    <p class="price">$400</p>
+                    <button>Buy Now</button>
+                </div>
             </div>
         </section>
 
@@ -267,6 +432,7 @@
                     <li><a href="#bracelets" data-en="Bracelets" data-es="Pulseras">Bracelets</a></li>
                     <li><a href="#earrings" data-en="Earrings" data-es="Aretes">Earrings</a></li>
                     <li><a href="#rings" data-en="Rings" data-es="Anillos">Rings</a></li>
+                    <li><a href="#watches" data-en="Watches" data-es="Relojes">Watches</a></li>
                     <li><a href="#brooches" data-en="Brooches" data-es="Broches">Brooches</a></li>
                     <li><a href="#pendants" data-en="Pendants" data-es="Colgantes">Pendants</a></li>
                 </ul>
@@ -513,5 +679,89 @@
 
 
     <script src="script.js"></script>
+
+    <!-- React Components -->
+    <script type="text/babel">
+        // React Components for enhanced functionality
+        const ProductCard = ({ product }) => {
+            const [isFavorited, setIsFavorited] = React.useState(false);
+            const [selectedSize, setSelectedSize] = React.useState('7');
+
+            const handleFavorite = () => {
+                setIsFavorited(!isFavorited);
+                // Could integrate with existing favorites system
+            };
+
+            const handleBuy = () => {
+                alert(`Added ${product.name} to cart!`);
+            };
+
+            return (
+                <div className="product" data-type={product.type} data-material={product.material}>
+                    <img src={product.image} alt={product.name} loading="lazy" />
+                    <div className="favorite-icon" onClick={handleFavorite}>
+                        {isFavorited ? '❤️' : '🤍'}
+                    </div>
+                    <h3>{product.name}</h3>
+                    <p>{product.description}</p>
+                    {product.sizes && (
+                        <div className="product-sizes">
+                            {product.sizes.map(size => (
+                                <span
+                                    key={size}
+                                    className={`size-option ${selectedSize === size ? 'active' : ''}`}
+                                    data-size={size}
+                                    onClick={() => setSelectedSize(size)}
+                                >
+                                    {size}
+                                </span>
+                            ))}
+                        </div>
+                    )}
+                    <p className="price">{product.price}</p>
+                    <button onClick={handleBuy}>Buy Now</button>
+                </div>
+            );
+        };
+
+        const SearchBar = () => {
+            const [query, setQuery] = React.useState('');
+
+            const handleSearch = (e) => {
+                e.preventDefault();
+                if (query.trim()) {
+                    // Could integrate with existing search functionality
+                    alert(`Searching for: ${query}`);
+                }
+            };
+
+            return (
+                <div className="search-container">
+                    <input
+                        type="text"
+                        id="react-search-input"
+                        placeholder="Search jewelry..."
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        onKeyPress={(e) => e.key === 'Enter' && handleSearch(e)}
+                    />
+                    <button id="react-search-btn" className="search-btn" onClick={handleSearch}>
+                        🔍
+                    </button>
+                </div>
+            );
+        };
+
+        // Render React components where needed
+        const renderReactComponents = () => {
+            // Could render React components in specific containers
+            console.log('React components ready');
+        };
+
+        // Initialize React components when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            renderReactComponents();
+        });
+    </script>
 </body>
 </html>
