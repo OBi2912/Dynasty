@@ -1,5 +1,5 @@
 // Product filtering and navigation functionality
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const categoryButtons = document.querySelectorAll('.category-btn');
     const products = document.querySelectorAll('.product');
@@ -7,6 +7,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Shopping cart functionality
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    // Ensure all cart items have quantity property
+    cart = cart.map(item => ({
+        ...item,
+        quantity: item.quantity || 1
+    }));
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     const cartBtn = document.getElementById('cart-btn');
     const cartCount = document.getElementById('cart-count');
@@ -50,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="favorites-modal-content">
             <div class="favorites-header">
                 <h2>My Favorites</h2>
+                <button id="clear-favorites-btn" class="clear-btn" style="font-size: 0.8rem; padding: 5px 10px; margin-right: auto; margin-left: 10px; background-color: #ff4444; color: white; border: none; border-radius: 4px; cursor: pointer;">Clear All</button>
                 <button id="close-favorites" class="close-favorites">&times;</button>
             </div>
             <div id="favorites-list" class="favorites-list">
@@ -71,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Image loading handler
     const images = document.querySelectorAll('.product img');
     images.forEach(img => {
-        img.addEventListener('load', function() {
+        img.addEventListener('load', function () {
             this.classList.add('loaded');
         });
         // Fallback for cached images
@@ -83,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Filter functionality (existing filters)
     filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const filterType = this.parentElement.querySelector('h3').textContent.toLowerCase().split(' ')[2]; // "type", "material", or "size"
             const filterValue = this.getAttribute('data-filter');
 
@@ -98,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Category navigation functionality
     categoryButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const category = this.getAttribute('data-category');
 
             // Remove active class from all category buttons
@@ -116,21 +122,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const sizeSelect = document.getElementById('size-select');
 
     // Type filter functionality
-    typeSelect.addEventListener('change', function() {
+    typeSelect.addEventListener('change', function () {
         const selectedValue = this.value;
         console.log(`Type filter changed to: ${selectedValue}`);
         filterProducts('type', selectedValue);
     });
 
     // Material filter functionality
-    materialSelect.addEventListener('change', function() {
+    materialSelect.addEventListener('change', function () {
         const selectedValue = this.value;
         console.log(`Material filter changed to: ${selectedValue}`);
         filterProducts('material', selectedValue);
     });
 
     // Size filter functionality
-    sizeSelect.addEventListener('change', function() {
+    sizeSelect.addEventListener('change', function () {
         const selectedValue = this.value;
         console.log(`Size filter changed to: ${selectedValue}`);
         filterProducts('size', selectedValue);
@@ -140,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const dropdownItems = document.querySelectorAll('.dropdown-item');
 
     dropdownItems.forEach(item => {
-        item.addEventListener('click', function(e) {
+        item.addEventListener('click', function (e) {
             e.stopPropagation();
 
             // Determine which type of filter this is based on parent container
@@ -240,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Smooth scrolling for footer navigation
     const navLinks = document.querySelectorAll('footer a[href^="#"]');
     navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             e.preventDefault();
             const targetId = this.getAttribute('href').substring(1);
             const targetElement = document.getElementById(targetId);
@@ -252,11 +258,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Add hover effects for products
     products.forEach(product => {
-        product.addEventListener('mouseenter', function() {
+        product.addEventListener('mouseenter', function () {
             this.style.transform = 'translateY(-15px) scale(1.02)';
         });
 
-        product.addEventListener('mouseleave', function() {
+        product.addEventListener('mouseleave', function () {
             this.style.transform = 'translateY(0) scale(1)';
         });
     });
@@ -264,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Button click animation
     const buttons = document.querySelectorAll('.product button');
     buttons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             this.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 this.style.transform = 'scale(1)';
@@ -301,7 +307,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.documentElement.setAttribute('data-theme', currentTheme);
         console.log('Initial theme set to:', currentTheme);
 
-        themeToggle.addEventListener('click', function() {
+        themeToggle.addEventListener('click', function () {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
 
@@ -332,7 +338,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Set initial button text
         languageToggle.innerHTML = currentLanguage === 'en' ? '🇺🇸 EN/ES' : '🇪🇸 ES/EN';
 
-        languageToggle.addEventListener('click', function() {
+        languageToggle.addEventListener('click', function () {
             const currentLanguage = document.documentElement.getAttribute('data-lang');
             const newLanguage = currentLanguage === 'en' ? 'es' : 'en';
 
@@ -393,7 +399,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cart and favorites functions
     function updateCartCount() {
-        cartCount.textContent = cart.length;
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartCount.textContent = totalItems;
     }
 
     function updateFavoritesCount() {
@@ -401,13 +408,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function addToCart(productName, price, imageSrc) {
-        const item = {
-            name: productName,
-            price: parseFloat(price.replace('$', '').replace(',', '')),
-            image: imageSrc,
-            id: Date.now() // Simple unique ID
-        };
-        cart.push(item);
+        const itemPrice = parseFloat(price.replace('$', '').replace(',', ''));
+        // Check if product already exists in cart
+        const existingItem = cart.find(item => item.name === productName);
+        
+        if (existingItem) {
+            // If product exists, increase quantity
+            existingItem.quantity += 1;
+        } else {
+            // If product doesn't exist, add new item with quantity 1
+            const item = {
+                name: productName,
+                price: itemPrice,
+                image: imageSrc,
+                id: Date.now(), // Simple unique ID
+                quantity: 1
+            };
+            cart.push(item);
+        }
+        
         localStorage.setItem('cart', JSON.stringify(cart));
         updateCartCount();
         updateCartDisplay();
@@ -440,14 +459,15 @@ document.addEventListener('DOMContentLoaded', function() {
             cartItems.innerHTML = '<p>Your cart is empty</p>';
         } else {
             cart.forEach(item => {
-                total += item.price;
+                total += item.price * item.quantity;
                 const itemElement = document.createElement('div');
                 itemElement.className = 'cart-item';
                 itemElement.innerHTML = `
                     <img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
                     <div class="cart-item-details">
                         <h4>${item.name}</h4>
-                        <p>$${item.price.toFixed(2)}</p>
+                        <p>$${item.price.toFixed(2)} x ${item.quantity}</p>
+                        <p>Subtotal: $${(item.price * item.quantity).toFixed(2)}</p>
                     </div>
                     <button class="remove-item" data-id="${item.id}">×</button>
                 `;
@@ -529,14 +549,15 @@ document.addEventListener('DOMContentLoaded', function() {
         let total = 0;
 
         cart.forEach(item => {
-            total += item.price;
+            total += item.price * item.quantity;
             const itemElement = document.createElement('div');
             itemElement.className = 'checkout-item';
             itemElement.innerHTML = `
                 <img src="${item.image}" alt="${item.name}">
                 <div class="checkout-item-details">
                     <h4>${item.name}</h4>
-                    <p>$${item.price.toFixed(2)}</p>
+                    <p>$${item.price.toFixed(2)} x ${item.quantity}</p>
+                    <p>Subtotal: $${(item.price * item.quantity).toFixed(2)}</p>
                 </div>
             `;
             checkoutItems.appendChild(itemElement);
@@ -661,7 +682,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Product click functionality
     document.querySelectorAll('.product').forEach(product => {
-        product.addEventListener('click', function(e) {
+        product.addEventListener('click', function (e) {
             // Don't open modal if clicking on favorite icon, buy button, or size options
             if (e.target.closest('.favorite-icon') || e.target.tagName === 'BUTTON' || e.target.closest('.size-option')) {
                 return;
@@ -678,7 +699,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Size selection functionality
     document.querySelectorAll('.size-option').forEach(option => {
-        option.addEventListener('click', function() {
+        option.addEventListener('click', function () {
             // Remove active class from siblings
             this.parentElement.querySelectorAll('.size-option').forEach(opt => {
                 opt.classList.remove('active');
@@ -690,7 +711,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Add to cart buttons
     document.querySelectorAll('.product button').forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             e.stopPropagation(); // Prevent product modal from opening
             const product = this.closest('.product');
             const name = product.querySelector('h3').textContent;
@@ -793,6 +814,24 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Clear Favorites Functionality
+    const clearFavoritesBtn = document.getElementById('clear-favorites-btn');
+    if (clearFavoritesBtn) {
+        clearFavoritesBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to remove all favorites?')) {
+                favorites = [];
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                updateFavoritesCount();
+                displayFavorites();
+                // Reset all heart icons
+                document.querySelectorAll('.favorite-icon').forEach(icon => {
+                    icon.setAttribute('data-favorited', 'false');
+                    icon.textContent = '🤍';
+                });
+            }
+        });
+    }
+
     // User button
     userBtn.addEventListener('click', () => {
         userModal.style.display = 'flex';
@@ -882,7 +921,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Favorite icon functionality
     document.querySelectorAll('.favorite-icon').forEach(icon => {
-        icon.addEventListener('click', function() {
+        icon.addEventListener('click', function () {
             const product = this.closest('.product');
             const name = product.querySelector('h3').textContent;
             const price = product.querySelector('.price').textContent;
@@ -903,6 +942,55 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    function addToFavorites(productName, price, imageSrc) {
+        // Check if already in favorites to prevent duplicates
+        if (favorites.some(item => item.name === productName)) {
+            return;
+        }
+
+        const item = {
+            name: productName,
+            price: typeof price === 'string' ? parseFloat(price.replace(/[^0-9.]/g, '')) : price,
+            image: imageSrc,
+            image: imageSrc,
+            id: Date.now() + Math.random() // Robust unique ID
+        };
+        favorites.push(item);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        updateFavoritesCount();
+
+        // Update icon state if visible
+        const icon = Array.from(document.querySelectorAll('.product')).find(p =>
+            p.querySelector('h3').textContent === productName
+        )?.querySelector('.favorite-icon');
+
+        if (icon) {
+            icon.setAttribute('data-favorited', 'true');
+            icon.textContent = '❤️';
+        }
+    }
+
+    function removeFromFavorites(productName) {
+        favorites = favorites.filter(item => item.name !== productName);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        updateFavoritesCount();
+
+        // Update grid icons
+        const icon = Array.from(document.querySelectorAll('.product')).find(p =>
+            p.querySelector('h3').textContent === productName
+        )?.querySelector('.favorite-icon');
+
+        if (icon) {
+            icon.setAttribute('data-favorited', 'false');
+            icon.textContent = '🤍';
+        }
+
+        // Also update modal favorite button if open
+        if (currentProduct && currentProduct.name === productName) {
+            productModalFavorite.textContent = '🤍';
+        }
+    }
+
     function loadFavorites() {
         const favoriteIcons = document.querySelectorAll('.favorite-icon');
         favoriteIcons.forEach(icon => {
@@ -921,6 +1009,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function displayFavorites() {
+        if (!favoritesList) return;
+
         favoritesList.innerHTML = '';
 
         if (favorites.length === 0) {
@@ -934,8 +1024,8 @@ document.addEventListener('DOMContentLoaded', function() {
             favoriteItem.innerHTML = `
                 <img src="${item.image}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
                 <div class="favorite-item-details">
-                    <h3>${item.name}</h3>
-                    <p>$${item.price.toFixed(2)}</p>
+                    <h3 style="color: var(--text-primary); margin-bottom: 5px;">${item.name}</h3>
+                    <p style="color: var(--text-secondary); font-weight: bold;">$${typeof item.price === 'number' ? item.price.toFixed(2) : item.price}</p>
                 </div>
                 <button class="remove-favorite" data-name="${item.name}">Remove</button>
             `;
@@ -944,7 +1034,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Add event listeners to remove buttons
         document.querySelectorAll('.remove-favorite').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 const name = this.getAttribute('data-name');
                 removeFromFavorites(name);
                 displayFavorites(); // Refresh the display
@@ -952,18 +1042,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function removeFromFavorites(productName) {
-        favorites = favorites.filter(item => item.name !== productName);
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-        updateFavoritesCount();
-    }
-
     // Initialize: show all sections by default
     showCategory('all');
     hideAllDropdowns(); // Start with all dropdowns hidden
 
     // Close modals with Escape key
-    document.addEventListener('keydown', function(event) {
+    document.addEventListener('keydown', function (event) {
         if (event.key === 'Escape') {
             // Close cart modal if open
             if (cartModal.style.display === 'block') {
@@ -997,4 +1081,42 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+});
+// Payment Method Toggle Functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const paymentRadios = document.querySelectorAll('input[name="payment"]');
+    const creditCardForm = document.getElementById('credit-card-form');
+    const paypalForm = document.getElementById('paypal-form');
+    const bankTransferForm = document.getElementById('bank-transfer-form');
+    const codForm = document.getElementById('cod-form');
+
+    function togglePaymentForms() {
+        // Hide all forms first
+        if (creditCardForm) creditCardForm.style.display = 'none';
+        if (paypalForm) paypalForm.style.display = 'none';
+        if (bankTransferForm) bankTransferForm.style.display = 'none';
+        if (codForm) codForm.style.display = 'none';
+
+        // Get selected value
+        const selectedValue = document.querySelector('input[name="payment"]:checked').value;
+
+        // Show relevant form
+        if (selectedValue === 'credit-card' && creditCardForm) {
+            creditCardForm.style.display = 'block';
+        } else if (selectedValue === 'paypal' && paypalForm) {
+            paypalForm.style.display = 'block';
+        } else if (selectedValue === 'bank-transfer' && bankTransferForm) {
+            bankTransferForm.style.display = 'block';
+        } else if (selectedValue === 'cash-on-delivery' && codForm) {
+            codForm.style.display = 'block';
+        }
+    }
+
+    // Attach event listeners to all payment radio buttons
+    paymentRadios.forEach(radio => {
+        radio.addEventListener('change', togglePaymentForms);
+    });
+
+    // Run once on load to set initial state
+    togglePaymentForms();
 });
