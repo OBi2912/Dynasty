@@ -13,10 +13,6 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <!-- React Dependencies -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <!-- React Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -825,89 +821,6 @@
 
     <script src="script.js"></script>
 
-    <!-- React Components -->
-    <script type="text/babel">
-        // React Components for enhanced functionality
-        const ProductCard = ({ product }) => {
-            const [isFavorited, setIsFavorited] = React.useState(false);
-            const [selectedSize, setSelectedSize] = React.useState('7');
-
-            const handleFavorite = () => {
-                setIsFavorited(!isFavorited);
-                // Could integrate with existing favorites system
-            };
-
-            const handleBuy = () => {
-                alert(`Added ${product.name} to cart!`);
-            };
-
-            return (
-                <div className="product" data-type={product.type} data-material={product.material}>
-                    <img src={product.image} alt={product.name} loading="lazy" />
-                    <div className="favorite-icon" onClick={handleFavorite}>
-                        {isFavorited ? '❤️' : '🤍'}
-                    </div>
-                    <h3>{product.name}</h3>
-                    <p>{product.description}</p>
-                    {product.sizes && (
-                        <div className="product-sizes">
-                            {product.sizes.map(size => (
-                                <span
-                                    key={size}
-                                    className={`size-option ${selectedSize === size ? 'active' : ''}`}
-                                    data-size={size}
-                                    onClick={() => setSelectedSize(size)}
-                                >
-                                    {size}
-                                </span>
-                            ))}
-                        </div>
-                    )}
-                    <p className="price">{product.price}</p>
-                    <button onClick={handleBuy}>Buy Now</button>
-                </div>
-            );
-        };
-
-        const SearchBar = () => {
-            const [query, setQuery] = React.useState('');
-
-            const handleSearch = (e) => {
-                e.preventDefault();
-                if (query.trim()) {
-                    // Could integrate with existing search functionality
-                    alert(`Searching for: ${query}`);
-                }
-            };
-
-            return (
-                <div className="search-container">
-                    <input
-                        type="text"
-                        id="react-search-input"
-                        placeholder="Search jewelry..."
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && handleSearch(e)}
-                    />
-                    <button id="react-search-btn" className="search-btn" onClick={handleSearch}>
-                        🔍
-                    </button>
-                </div>
-            );
-        };
-
-        // Render React components where needed
-        const renderReactComponents = () => {
-            // Could render React components in specific containers
-            console.log('React components ready');
-        };
-
-        // Initialize React components when DOM is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            renderReactComponents();
-        });
-    </script>
 </body>
 
 </html>
